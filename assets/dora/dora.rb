@@ -20,8 +20,23 @@ class Dora < Sinatra::Base
   use StressTesters
   use LogUtils
 
+  def puts_dora(count)
+    t = Thread.new do
+      1.upto(count) do |num|
+        puts "#{num}! #{Time.now}"
+      end
+    end
+  end
+
   get '/' do
+     puts "Hi, I'm Dora! #{Time.now}"
     "Hi, I'm Dora!"
+  end
+
+  get '/puts/:count' do
+    count = params[:count].to_i
+    puts_dora(count)
+    "Hi, I'm Dora! count = #{count}\n"
   end
 
   get '/find/:filename' do
